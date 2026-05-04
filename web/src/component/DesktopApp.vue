@@ -11,7 +11,9 @@ import Footer from '@/component/Footer.vue'
         </el-header>
         <el-container style="flex: 1; overflow: hidden">
             <el-aside width="200px">
-                <Aside />
+                <el-scrollbar>
+                    <Aside />
+                </el-scrollbar>
             </el-aside>
             <el-main style="padding: 0; flex: 1; overflow: hidden">
                 <el-scrollbar>

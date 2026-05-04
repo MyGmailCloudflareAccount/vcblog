@@ -22,7 +22,9 @@ import Footer from '@/component/Footer.vue'
         </el-header>
         <el-container style="flex: 1; overflow: hidden">
             <el-aside style="position: absolute; top: 60px; bottom: 0; left: 0; background-color: #eee; box-shadow: 0 0 5px 0; z-index: 100" v-show="asideOpen" width="200px">
-                <Aside />
+                <el-scrollbar>
+                    <Aside />
+                </el-scrollbar>
             </el-aside>
             <el-container>
                 <el-main style="margin: 5px 0; padding: 0; flex: 1; overflow: hidden">
