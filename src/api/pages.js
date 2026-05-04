@@ -8,6 +8,7 @@ import { eq } from 'drizzle-orm'
 pages.get('/list', async (req, res) => {
     const result = await db()
         .select({
+            id: table.id,
             path: table.path,
             title: table.title
         })
