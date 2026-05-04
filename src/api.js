@@ -12,3 +12,6 @@ export const apiHandler = httpServerHandler(server)
 
 import site from './api/site.js'
 api.use('/site', site)
+
+import pages from './api/pages.js'
+api.use('/page', pages)
