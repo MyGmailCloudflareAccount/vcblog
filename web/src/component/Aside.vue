@@ -11,7 +11,7 @@ onMounted(async () => {
 <template>
     <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; row-gap: 5px">
         <a href="/">首页</a>
-        <a v-for="page in pages" href="{{ page.path }}">{{ page.title }}</a>
+        <a v-for="page in pages" :href="page.path">{{ page.title }}</a>
     </div>
 </template>
 
