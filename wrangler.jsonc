@@ -55,9 +55,9 @@
     ],
     "d1_databases": [
         {
-            "binding": "vcblog_storage",
-            "database_name": "vcblog-storage",
-            "database_id": "586edd8f-9b92-442f-9aca-9fd359acbfa6"
+            "binding": "vcblog_database",
+            "database_name": "vcblog-database",
+            "database_id": "769dd80d-a86e-4473-8cdb-bd7ab51e1826"
         }
     ]
 }
