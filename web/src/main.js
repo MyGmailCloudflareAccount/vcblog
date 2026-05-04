@@ -8,4 +8,5 @@ app.use(createPinia())
 import router from './router'
 app.use(router)
 
+import './global.css'
 app.mount('#app')
