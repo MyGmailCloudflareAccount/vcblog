@@ -1,7 +1,12 @@
 import { apiHandler } from './api.js'
+import { set_database } from './database/env.js'
+import { set_config } from './config/env.js'
 
 export default {
     async fetch(request, env, ctx) {
+        set_config(env.vcblog_config)
+        set_database(env.vcblog_database)
+
         const url = new URL(request.url)
 
         if (url.pathname.startsWith('/api/')) {
