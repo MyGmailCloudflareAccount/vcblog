@@ -10,6 +10,5 @@ import { httpServerHandler } from 'cloudflare:node'
 const server = createServer(app)
 export const apiHandler = httpServerHandler(server)
 
-api.get('/ping', (req, res) => {
-    res.send('pong')
-})
+import site from './api/site.js'
+api.use('/site', site)

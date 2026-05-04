@@ -1,6 +1,6 @@
 import { apiHandler } from './api.js'
-import { set_database } from './database/env.js'
-import { set_config } from './config/env.js'
+import { set_config } from './env/config.js'
+import { set_database } from './env/database.js'
 
 export default {
     async fetch(request, env, ctx) {
