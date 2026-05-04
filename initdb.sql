@@ -4,5 +4,5 @@ CREATE TABLE
         type TEXT NOT NULL DEFAULT 'post',
         path TEXT NOT NULL UNIQUE,
         title TEXT NOT NULL,
-        content TEXT NOT NULL DEFAULT '',
-    )
+        content TEXT NOT NULL DEFAULT ''
+    );
