@@ -1,9 +1,22 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+
+import 'katex/dist/katex.min.css'
+import MarkdownRender from 'markstream-vue'
+
 const route = useRoute()
-console.log(route.path)
+const page = ref({})
+
+onMounted(async () => {
+    const resp = await fetch(`/api/page/info?path=${route.path}`)
+    page.value = await resp.json()
+})
 </script>
 
-<template>aaaaaa</template>
+<template>
+    <h2 style="margin-top: 5px">{{ page.title }}</h2>
+    <MarkdownRender :content="page.content" />
+</template>
 
 <style scoped></style>

@@ -50,14 +50,16 @@
     "kv_namespaces": [
         {
             "binding": "vcblog_config",
-            "id": "23bac426217a465790e94a5b0b551937"
+            "id": "23bac426217a465790e94a5b0b551937",
+            "remote": true
         }
     ],
     "d1_databases": [
         {
             "binding": "vcblog_database",
             "database_name": "vcblog-database",
-            "database_id": "769dd80d-a86e-4473-8cdb-bd7ab51e1826"
+            "database_id": "769dd80d-a86e-4473-8cdb-bd7ab51e1826",
+            "remote": true
         }
     ]
 }

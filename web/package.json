@@ -9,8 +9,14 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@terrastruct/d2": "^0.1.33",
         "element-plus": "^2.13.7",
+        "katex": "^0.16.45",
+        "markstream-vue": "^0.0.14-beta.3",
+        "mermaid": "^11.14.0",
         "pinia": "^3.0.4",
+        "stream-markdown": "^0.0.15",
+        "stream-monaco": "^0.0.40",
         "vue": "^3.5.32",
         "vue-router": "^5.0.4"
     },
