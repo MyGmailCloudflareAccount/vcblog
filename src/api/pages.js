@@ -9,7 +9,6 @@ pages.get('/list', async (req, res) => {
     const result = await db()
         .select({
             id: table.id,
-            path: table.path,
             title: table.title
         })
         .from(table)
@@ -19,20 +18,19 @@ pages.get('/list', async (req, res) => {
 })
 
 pages.get('/info', async (req, res) => {
-    const path = req.query.path
-    if (typeof path !== 'string' || path === '') {
+    const id = req.query.id
+    if (typeof id !== 'string' || id === '') {
         res.sendStatus(400)
         return
     }
 
     const result = await db()
         .select({
-            id: table.id,
             title: table.title,
             content: table.content
         })
         .from(table)
-        .where(eq(table.path, path))
+        .where(eq(table.id, id))
 
     if (result.length === 0) {
         res.sendStatus(404)

@@ -9,7 +9,7 @@ const route = useRoute()
 const page = ref({})
 
 onMounted(async () => {
-    const resp = await fetch(`/api/page/info?path=${route.path}`)
+    const resp = await fetch(`/api/page/info?id=${route.params.id}`)
     page.value = await resp.json()
 })
 </script>
