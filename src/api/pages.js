@@ -13,6 +13,7 @@ pages.get('/list', async (req, res) => {
         })
         .from(table)
         .where(eq(table.type, 'page'))
+        .orderBy(table.id)
 
     res.json(result)
 })

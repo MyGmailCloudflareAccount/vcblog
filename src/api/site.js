@@ -8,7 +8,8 @@ site.get('/info', async (req, res) => {
     res.json({
         title: await config.get('title'),
         extra_css: await config.get('extra_css'),
-        extra_js: await config.get('extra_js')
+        extra_js: await config.get('extra_js'),
+        post_per_page: await config.get('post_per_page')
     })
 })
 
