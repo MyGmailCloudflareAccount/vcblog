@@ -15,3 +15,6 @@ api.use('/site', site)
 
 import pages from './api/pages.js'
 api.use('/page', pages)
+
+import posts from './api/posts.js'
+api.use('/post', posts)
