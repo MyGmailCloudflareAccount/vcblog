@@ -5,12 +5,16 @@ import { useRoute } from 'vue-router'
 import 'katex/dist/katex.min.css'
 import MarkdownRender from 'markstream-vue'
 
+import { useSiteStore } from '@/stores/site'
+const siteStore = useSiteStore()
+
 const route = useRoute()
 const page = ref({})
 
 onMounted(async () => {
     const resp = await fetch(`/api/page/info?id=${route.params.id}`)
     page.value = await resp.json()
+    document.title = `${page.value.title} | ${siteStore.site.title}`
 })
 </script>
 
