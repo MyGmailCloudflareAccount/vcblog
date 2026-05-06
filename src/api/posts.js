@@ -3,7 +3,7 @@ const posts = express.Router()
 
 import db from '../database/orm.js'
 import table from '../database/schema.js'
-import { desc, eq, sql } from 'drizzle-orm'
+import { and, desc, eq, sql } from 'drizzle-orm'
 
 posts.get('/list', async (req, res) => {
     const start = req.query.start
@@ -35,6 +35,29 @@ posts.get('/list', async (req, res) => {
         .offset(startNum)
 
     res.json(result)
+})
+
+posts.get('/info', async (req, res) => {
+    const id = req.query.id
+    if (typeof id !== 'string' || id === '') {
+        res.sendStatus(400)
+        return
+    }
+
+    const result = await db()
+        .select({
+            title: table.title,
+            content: table.content
+        })
+        .from(table)
+        .where(and(eq(table.type, 'post'), eq(table.id, id)))
+
+    if (result.length === 0) {
+        res.sendStatus(404)
+        return
+    }
+
+    res.json(result[0])
 })
 
 export default posts

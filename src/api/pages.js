@@ -3,7 +3,7 @@ const pages = express.Router()
 
 import db from '../database/orm.js'
 import table from '../database/schema.js'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 pages.get('/list', async (req, res) => {
     const result = await db()
@@ -31,7 +31,7 @@ pages.get('/info', async (req, res) => {
             content: table.content
         })
         .from(table)
-        .where(eq(table.id, id))
+        .where(and(eq(table.type, 'page'), eq(table.id, id)))
 
     if (result.length === 0) {
         res.sendStatus(404)
