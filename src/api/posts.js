@@ -1,26 +1,53 @@
 import express from 'express'
 const posts = express.Router()
 
+import { get_config } from '../env/config.js'
 import db from '../database/orm.js'
 import table from '../database/schema.js'
-import { and, desc, eq, sql } from 'drizzle-orm'
+import { and, count, desc, eq, sql } from 'drizzle-orm'
+
+posts.get('/count', async (req, res) => {
+    const result = await db()
+        .select({
+            count: count()
+        })
+        .from(table)
+        .where(eq(table.type, 'post'))
+
+    if (result.length === 0) {
+        res.sendStatus(404)
+        return
+    }
+
+    res.json(result[0])
+})
 
 posts.get('/list', async (req, res) => {
-    const start = req.query.start
-    const total = req.query.total
-
-    if (typeof start !== 'string' || start === '' || typeof total !== 'string' || total === '') {
+    const page = req.query.page
+    if (typeof page !== 'string' || page === '') {
         res.sendStatus(400)
         return
     }
 
-    const startNum = parseInt(start, 10)
-    const totalNum = parseInt(total, 10)
-
-    if (isNaN(startNum) || isNaN(totalNum)) {
+    let pageNum = parseInt(page, 10)
+    if (isNaN(pageNum)) {
         res.sendStatus(400)
         return
     }
+
+    if (pageNum < 1) {
+        pageNum = 1
+    }
+
+    const config = get_config()
+    const post_per_page = parseInt(await config.get('post_per_page'), 10)
+    if (isNaN(post_per_page)) {
+        res.sendStatus(500)
+        return
+    }
+
+    const offset = (pageNum - 1) * post_per_page
+    const limit = post_per_page
 
     const result = await db()
         .select({
@@ -31,8 +58,8 @@ posts.get('/list', async (req, res) => {
         .from(table)
         .where(eq(table.type, 'post'))
         .orderBy(desc(table.id))
-        .limit(totalNum)
-        .offset(startNum)
+        .limit(limit)
+        .offset(offset)
 
     res.json(result)
 })
