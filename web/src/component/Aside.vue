@@ -1,5 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, defineEmits } from 'vue'
+
+const emit = defineEmits(['closeAside'])
+const handleLinkClick = () => {
+    emit('closeAside')
+}
 
 const pages = ref([])
 onMounted(async () => {
@@ -10,8 +15,8 @@ onMounted(async () => {
 
 <template>
     <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; row-gap: 5px">
-        <router-link to="/">首页</router-link>
-        <router-link v-for="page in pages" :to="`/page/${page.id}`">{{ page.title }}</router-link>
+        <router-link to="/" @click="handleLinkClick">首页</router-link>
+        <router-link v-for="page in pages" :to="`/page/${page.id}`" @click="handleLinkClick">{{ page.title }}</router-link>
     </div>
 </template>
 

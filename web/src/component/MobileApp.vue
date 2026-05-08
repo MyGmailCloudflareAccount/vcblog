@@ -4,9 +4,15 @@ import { Operation, Close } from '@element-plus/icons-vue'
 
 const asideOpen = ref(false)
 const collapseBtnIcon = ref(Operation)
+
 const asideSwitch = () => {
     asideOpen.value = !asideOpen.value
     collapseBtnIcon.value = asideOpen.value ? Close : Operation
+}
+
+const closeAside = () => {
+    asideOpen.value = false
+    collapseBtnIcon.value = Operation
 }
 
 import Header from '@/component/Header.vue'
@@ -23,7 +29,7 @@ import Footer from '@/component/Footer.vue'
         <el-container style="flex: 1; overflow: hidden">
             <el-aside style="position: absolute; top: 60px; bottom: 0; left: 0; background-color: #eee; box-shadow: 0 0 5px 0; z-index: 100" v-show="asideOpen" width="200px">
                 <el-scrollbar>
-                    <Aside />
+                    <Aside @close-aside="closeAside" />
                 </el-scrollbar>
             </el-aside>
             <el-container>
