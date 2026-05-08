@@ -5,7 +5,7 @@ import { get_config } from '../env/config.js'
 const config = get_config()
 const true_password = await config.get('password')
 
-auth.post('/login', async (req, res) => {
+auth.post('/login', (req, res) => {
     const { password } = req.body
     if (typeof password !== 'string' || password === '') {
         res.sendStatus(401)

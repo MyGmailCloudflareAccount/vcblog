@@ -4,11 +4,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 import { get_config } from './env/config.js'
-import session from 'express-session'
 const config = get_config()
+const cookie_secret = await config.get('cookie_secret')
+
+import session from 'express-session'
 app.use(
     session({
-        secret: await config.get('cookie_secret'),
+        secret: cookie_secret,
         resave: false,
         saveUninitialized: false,
         cookie: {
