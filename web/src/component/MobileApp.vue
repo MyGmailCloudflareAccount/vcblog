@@ -29,7 +29,9 @@ import Footer from '@/component/Footer.vue'
             <el-container>
                 <el-main style="margin: 5px 0; padding: 0; flex: 1; overflow: hidden">
                     <el-scrollbar>
-                        <router-view />
+                        <div style="padding: 0 10px">
+                            <router-view />
+                        </div>
                     </el-scrollbar>
                 </el-main>
                 <el-footer style="padding: 5px 0; height: auto">
