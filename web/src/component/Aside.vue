@@ -16,6 +16,7 @@ onMounted(async () => {
 <template>
     <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; row-gap: 5px">
         <router-link to="/" @click="handleLinkClick">首页</router-link>
+        <router-link to="/search" @click="handleLinkClick">搜索</router-link>
         <router-link v-for="page in pages" :to="`/page/${page.id}`" @click="handleLinkClick">{{ page.title }}</router-link>
     </div>
 </template>

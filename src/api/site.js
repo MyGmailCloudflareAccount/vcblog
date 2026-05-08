@@ -5,11 +5,12 @@ import { get_config } from '../env/config.js'
 
 site.get('/info', async (req, res) => {
     const config = get_config()
+    const [title, extra_css, extra_js] = await Promise.all([config.get('title'), config.get('extra_css'), config.get('extra_js')])
 
     res.json({
-        title: await config.get('title'),
-        extra_css: await config.get('extra_css'),
-        extra_js: await config.get('extra_js')
+        title: title,
+        extra_css: extra_css,
+        extra_js: extra_js
     })
 })
 

@@ -4,7 +4,7 @@ const posts = express.Router()
 import { get_config } from '../env/config.js'
 import db from '../database/orm.js'
 import table from '../database/schema.js'
-import { and, count, desc, eq, sql } from 'drizzle-orm'
+import { and, count, desc, eq, sql, or, like } from 'drizzle-orm'
 
 posts.get('/count', async (req, res) => {
     const result = await db()
@@ -95,6 +95,27 @@ posts.get('/info', async (req, res) => {
     }
 
     res.json(result[0])
+})
+
+posts.get('/search', async (req, res) => {
+    const keyword = req.query.keyword
+    if (typeof keyword !== 'string' || keyword === '') {
+        res.sendStatus(400)
+        return
+    }
+
+    const result = await db()
+        .select({
+            id: table.id,
+            title: table.title,
+            preview: sql`substr(${table.content}, 1, 200)`.mapWith(String).as('preview')
+        })
+        .from(table)
+        .where(and(eq(table.type, 'post'), or(like(table.title, `%${keyword}%`), like(table.content, `%${keyword}%`))))
+        .orderBy(desc(table.id))
+        .limit(20)
+
+    res.json(result)
 })
 
 export default posts
