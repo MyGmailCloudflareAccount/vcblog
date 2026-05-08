@@ -14,6 +14,10 @@ const commonLink = [
     {
         path: '/search',
         text: '搜索'
+    },
+    {
+        path: '/login',
+        text: '管理'
     }
 ]
 

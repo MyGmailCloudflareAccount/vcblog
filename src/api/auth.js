@@ -30,4 +30,8 @@ export const requireAuth = (req, res, next) => {
     next()
 }
 
+auth.get('/status', requireAuth, (req, res) => {
+    res.json({ status: 'logined' })
+})
+
 export default auth
