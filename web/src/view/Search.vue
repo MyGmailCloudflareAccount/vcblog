@@ -17,8 +17,8 @@ const search = async () => {
 </script>
 
 <template>
-    <div style="display: flex; align-items: center; margin-bottom: 5px">
-        <button style="margin-right: 5px; cursor: pointer" type="button" @click="search">搜索</button>
+    <div style="display: flex; align-items: center; margin-bottom: 5px; column-gap: 5px">
+        <button style="cursor: pointer" type="button" @click="search">搜索</button>
         <input style="flex: 1" type="text" placeholder="输入关键词" v-model="input" />
     </div>
     <h2 style="margin-top: 5px" v-if="loading">加载中...</h2>

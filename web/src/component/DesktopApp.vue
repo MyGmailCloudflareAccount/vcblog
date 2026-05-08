@@ -10,14 +10,16 @@ import Footer from '@/component/Footer.vue'
             <Header />
         </el-header>
         <el-container style="flex: 1; overflow: hidden">
-            <el-aside width="200px">
+            <el-aside width="180px">
                 <el-scrollbar>
                     <Aside />
                 </el-scrollbar>
             </el-aside>
             <el-main style="padding: 0; flex: 1; overflow: hidden">
                 <el-scrollbar>
-                    <router-view />
+                    <div style="padding: 0 10px">
+                        <router-view />
+                    </div>
                 </el-scrollbar>
             </el-main>
         </el-container>
