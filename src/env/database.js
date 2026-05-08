@@ -1,4 +1,4 @@
-let _database = null
+let database = null
 
-export const get_database = () => _database
-export const set_database = db => (_database = db)
+export const get_database = () => database
+export const set_database = db => (database = db)

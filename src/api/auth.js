@@ -2,6 +2,8 @@ import express from 'express'
 const auth = express.Router()
 
 import { get_config } from '../env/config.js'
+const config = get_config()
+const true_password = await config.get('password')
 
 auth.post('/login', async (req, res) => {
     const { password } = req.body
@@ -10,8 +12,6 @@ auth.post('/login', async (req, res) => {
         return
     }
 
-    const config = get_config()
-    const true_password = await config.get('password')
     if (password !== true_password) {
         res.sendStatus(401)
         return

@@ -9,7 +9,7 @@ export default {
             const { set_database } = await import('./env/database.js')
             set_database(env.vcblog_database)
 
-            const api = await import('./api.js')
+            const { default: api } = await import('./api.js')
             return api.fetch(request, env, ctx)
         }
 

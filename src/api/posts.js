@@ -2,12 +2,18 @@ import express from 'express'
 const posts = express.Router()
 
 import { get_config } from '../env/config.js'
+const config = get_config()
+const post_per_page = parseInt(await config.get('post_per_page'), 10)
+if (isNaN(post_per_page)) {
+    throw new Error('post_per_page must be number')
+}
+
 import db from '../database/orm.js'
 import table from '../database/schema.js'
 import { and, count, desc, eq, sql, or, like } from 'drizzle-orm'
 
 posts.get('/count', async (req, res) => {
-    const result = await db()
+    const result = await db
         .select({
             total_post: count()
         })
@@ -16,13 +22,6 @@ posts.get('/count', async (req, res) => {
 
     if (result.length === 0) {
         res.sendStatus(404)
-        return
-    }
-
-    const config = get_config()
-    const post_per_page = parseInt(await config.get('post_per_page'), 10)
-    if (isNaN(post_per_page)) {
-        res.sendStatus(500)
         return
     }
 
@@ -49,17 +48,10 @@ posts.get('/list', async (req, res) => {
         pageNum = 1
     }
 
-    const config = get_config()
-    const post_per_page = parseInt(await config.get('post_per_page'), 10)
-    if (isNaN(post_per_page)) {
-        res.sendStatus(500)
-        return
-    }
-
     const offset = (pageNum - 1) * post_per_page
     const limit = post_per_page
 
-    const result = await db()
+    const result = await db
         .select({
             id: table.id,
             title: table.title,
@@ -81,13 +73,19 @@ posts.get('/info', async (req, res) => {
         return
     }
 
-    const result = await db()
+    const idNum = parseInt(id, 10)
+    if (isNaN(idNum)) {
+        res.sendStatus(400)
+        return
+    }
+
+    const result = await db
         .select({
             title: table.title,
             content: table.content
         })
         .from(table)
-        .where(and(eq(table.type, 'post'), eq(table.id, id)))
+        .where(and(eq(table.type, 'post'), eq(table.id, idNum)))
 
     if (result.length === 0) {
         res.sendStatus(404)
@@ -104,7 +102,7 @@ posts.get('/search', async (req, res) => {
         return
     }
 
-    const result = await db()
+    const result = await db
         .select({
             id: table.id,
             title: table.title,

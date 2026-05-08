@@ -6,7 +6,7 @@ import table from '../database/schema.js'
 import { and, eq } from 'drizzle-orm'
 
 pages.get('/list', async (req, res) => {
-    const result = await db()
+    const result = await db
         .select({
             id: table.id,
             title: table.title
@@ -25,13 +25,19 @@ pages.get('/info', async (req, res) => {
         return
     }
 
-    const result = await db()
+    const idNum = parseInt(id, 10)
+    if (isNaN(idNum)) {
+        res.sendStatus(400)
+        return
+    }
+
+    const result = await db
         .select({
             title: table.title,
             content: table.content
         })
         .from(table)
-        .where(and(eq(table.type, 'page'), eq(table.id, id)))
+        .where(and(eq(table.type, 'page'), eq(table.id, idNum)))
 
     if (result.length === 0) {
         res.sendStatus(404)
