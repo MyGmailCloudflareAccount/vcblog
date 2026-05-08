@@ -9,7 +9,7 @@ import { and, count, desc, eq, sql } from 'drizzle-orm'
 posts.get('/count', async (req, res) => {
     const result = await db()
         .select({
-            count: count()
+            total_post: count()
         })
         .from(table)
         .where(eq(table.type, 'post'))
@@ -19,7 +19,17 @@ posts.get('/count', async (req, res) => {
         return
     }
 
-    res.json(result[0])
+    const config = get_config()
+    const post_per_page = parseInt(await config.get('post_per_page'), 10)
+    if (isNaN(post_per_page)) {
+        res.sendStatus(500)
+        return
+    }
+
+    const total_post = result[0].total_post
+    const total_page = Math.ceil(total_post / post_per_page)
+
+    res.json({ total_page })
 })
 
 posts.get('/list', async (req, res) => {
