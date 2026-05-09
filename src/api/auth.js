@@ -7,7 +7,7 @@ const jwt_secret = await config.get('jwt_secret')
 const true_password = await config.get('password')
 
 import jwt from 'jsonwebtoken'
-const jwt_expire = 1 * 1000 * 60 * 60
+const jwt_expire = 1 * 60 * 60
 const cookie_name = 'auth_token'
 
 auth.post('/login', (req, res) => {
@@ -26,7 +26,7 @@ auth.post('/login', (req, res) => {
     res.cookie(cookie_name, token, {
         httpOnly: true,
         sameSite: 'strict',
-        maxAge: jwt_expire
+        maxAge: jwt_expire * 1000
     })
 
     res.sendStatus(200)
