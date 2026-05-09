@@ -3,22 +3,8 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-import { get_config } from './env/config.js'
-const config = get_config()
-const cookie_secret = await config.get('cookie_secret')
-
-import session from 'express-session'
-app.use(
-    session({
-        secret: cookie_secret,
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            httpOnly: true,
-            sameSite: 'strict'
-        }
-    })
-)
+import cookieParser from 'cookie-parser'
+app.use(cookieParser())
 
 const api = express.Router()
 app.use('/api', api)

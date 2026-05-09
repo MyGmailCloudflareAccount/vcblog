@@ -7,9 +7,10 @@
         "dev": "wrangler dev"
     },
     "dependencies": {
+        "cookie-parser": "^1.4.7",
         "drizzle-orm": "^0.45.2",
         "express": "^5.2.1",
-        "express-session": "^1.19.0"
+        "jsonwebtoken": "^9.0.3"
     },
     "devDependencies": {
         "@cloudflare/vitest-pool-workers": "^0.16.3",
