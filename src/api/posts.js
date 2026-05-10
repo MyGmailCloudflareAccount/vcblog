@@ -3,10 +3,6 @@ const posts = express.Router()
 
 import { get_config } from '../env/config.js'
 const config = get_config()
-const post_per_page = parseInt(await config.get('post_per_page'), 10)
-if (isNaN(post_per_page)) {
-    throw new Error('post_per_page must be number')
-}
 
 import db from '../database/orm.js'
 import table from '../database/schema.js'
@@ -22,6 +18,12 @@ posts.get('/count', async (req, res) => {
 
     if (result.length === 0) {
         res.sendStatus(404)
+        return
+    }
+
+    const post_per_page = parseInt(await config.get('post_per_page'), 10)
+    if (isNaN(post_per_page)) {
+        res.sendStatus(500)
         return
     }
 
@@ -46,6 +48,12 @@ posts.get('/list', async (req, res) => {
 
     if (pageNum < 1) {
         pageNum = 1
+    }
+
+    const post_per_page = parseInt(await config.get('post_per_page'), 10)
+    if (isNaN(post_per_page)) {
+        res.sendStatus(500)
+        return
     }
 
     const offset = (pageNum - 1) * post_per_page
