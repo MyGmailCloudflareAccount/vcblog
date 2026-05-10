@@ -4,6 +4,8 @@ const siteStore = useSiteStore()
 document.title = `登录 | ${siteStore.site.title}`
 
 import { ref, reactive, onMounted } from 'vue'
+import router from '@/router'
+
 const loading = ref(false)
 const message = ref('')
 const form = reactive({
@@ -28,6 +30,7 @@ const doLogin = async () => {
         }
 
         message.value = '登录成功'
+        router.push('/dash')
     } finally {
         loading.value = false
     }
@@ -43,6 +46,7 @@ onMounted(async () => {
         }
 
         message.value = '已登录'
+        router.push('/dash')
     } finally {
         loading.value = false
     }
