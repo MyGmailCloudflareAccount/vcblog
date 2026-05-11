@@ -9,17 +9,18 @@ const curRoute = useRoute()
 import { useSiteStore } from '@/stores/site'
 const siteStore = useSiteStore()
 
-import { computed, onMounted, watch } from 'vue'
-const activeTab = computed(() => curRoute.name)
+import { ref, onMounted, watch } from 'vue'
+const activeTab = ref('')
 
 onMounted(() => {
     if (curRoute.path === dashRoute.path) {
-        router.push({ name: dashRoute.children[0].name })
+        router.push('/dash/settings')
     }
 
     watch(
         () => curRoute.name,
         (name, _) => {
+            activeTab.value = name
             document.title = `${name} | 管理面板 | ${siteStore.site.title}`
         },
         { immediate: true }
@@ -27,12 +28,12 @@ onMounted(() => {
 })
 
 const changeTab = (tab, event) => {
-    console.log(tab, event)
+    console.log(activeTab.value)
 }
 </script>
 
 <template>
-    <el-tabs :value="activeTab" @tab-click="changeTab">
+    <el-tabs v-model="activeTab" @tab-click="changeTab">
         <el-tab-pane v-for="child in dashRoute.children" :label="child.name" :name="child.name">
             <router-view v-if="child.name === activeTab" />
         </el-tab-pane>
