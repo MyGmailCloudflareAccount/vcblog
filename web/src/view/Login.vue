@@ -4,8 +4,9 @@ const siteStore = useSiteStore()
 document.title = `登录 | ${siteStore.site.title}`
 
 import { ref, reactive, onMounted } from 'vue'
-import router from '@/router'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const loading = ref(false)
 const message = ref('')
 const form = reactive({

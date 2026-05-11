@@ -2,8 +2,8 @@
 import { useSiteStore } from '@/stores/site'
 const siteStore = useSiteStore()
 
-import { useRouter } from 'vue-router'
-const router = useRouter()
+import { useRoute } from 'vue-router'
+const route = useRoute()
 
 import { ref, onMounted, watch } from 'vue'
 const loading = ref(false)
@@ -17,7 +17,7 @@ onMounted(async () => {
     loading.value = false
 
     watch(
-        () => router.currentRoute.value.query.page,
+        () => route.query.page,
         async (page, _) => {
             if (!page) page = '1'
             document.title = `第 ${page} 页 | ${siteStore.site.title}`

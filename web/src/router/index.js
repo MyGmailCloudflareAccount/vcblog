@@ -31,7 +31,14 @@ const router = createRouter({
         {
             path: '/dash',
             name: 'dash',
-            component: () => import('@/view/Dash.vue')
+            component: () => import('@/view/dashboard/Home.vue'),
+            children: [
+                {
+                    path: 'settings',
+                    name: '基本设置',
+                    component: () => import('@/view/dashboard/Settings.vue')
+                }
+            ]
         }
     ]
 })
