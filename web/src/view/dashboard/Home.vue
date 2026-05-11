@@ -27,8 +27,8 @@ onMounted(() => {
     )
 })
 
-const changeTab = (tab, event) => {
-    console.log(activeTab.value)
+const changeTab = (tab, _) => {
+    router.push({ name: tab.props.name })
 }
 </script>
 
