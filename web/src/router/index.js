@@ -37,6 +37,16 @@ const router = createRouter({
                     path: 'settings',
                     name: '基本设置',
                     component: () => import('@/view/dashboard/Settings.vue')
+                },
+                {
+                    path: 'pages',
+                    name: '页面管理',
+                    component: () => import('@/view/dashboard/Pages.vue')
+                },
+                {
+                    path: 'posts',
+                    name: '文章管理',
+                    component: () => import('@/view/dashboard/Posts.vue')
                 }
             ]
         }
