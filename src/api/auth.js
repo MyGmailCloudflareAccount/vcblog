@@ -5,7 +5,7 @@ import { get_config } from '../env/config.js'
 const config = get_config()
 
 import jwt from 'jsonwebtoken'
-const jwt_expire = 1 * 60 * 60
+const jwt_expire = 24 * 60 * 60
 const cookie_name = 'auth_token'
 
 auth.post('/login', async (req, res) => {

@@ -26,4 +26,15 @@ settings.get('/list', async (req, res) => {
     res.json(Object.fromEntries(values))
 })
 
+settings.post('/update', async (req, res) => {
+    const { key, value } = req.body
+    if (typeof key !== 'string' || key === '' || typeof value !== 'string' || value === '') {
+        res.sendStatus(400)
+        return
+    }
+
+    await config.put(key, value)
+    res.sendStatus(200)
+})
+
 export default site
