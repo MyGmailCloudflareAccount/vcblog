@@ -1,5 +1,5 @@
 <script setup></script>
 
-<template>pages tab</template>
+<template></template>
 
 <style scoped></style>

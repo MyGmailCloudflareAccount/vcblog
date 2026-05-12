@@ -16,16 +16,16 @@ onMounted(() => {
     if (curRoute.path === dashRoute.path) {
         router.push('/dash/settings')
     }
-
-    watch(
-        () => curRoute.name,
-        (name, _) => {
-            activeTab.value = name
-            document.title = `${name} | 管理面板 | ${siteStore.site.title}`
-        },
-        { immediate: true }
-    )
 })
+
+watch(
+    () => curRoute.name,
+    (name, _) => {
+        activeTab.value = name
+        document.title = `${name} | 管理面板 | ${siteStore.site.title}`
+    },
+    { immediate: true }
+)
 
 const changeTab = (tab, _) => {
     router.push({ name: tab.props.name })

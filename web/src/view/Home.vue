@@ -15,21 +15,21 @@ onMounted(async () => {
     const resp = await fetch('/api/post/count')
     count.value = await resp.json()
     loading.value = false
-
-    watch(
-        () => route.query.page,
-        async (page, _) => {
-            if (!page) page = '1'
-            document.title = `第 ${page} 页 | ${siteStore.site.title}`
-
-            loading.value = true
-            const resp = await fetch(`/api/post/list?page=${page}`)
-            posts.value = await resp.json()
-            loading.value = false
-        },
-        { immediate: true }
-    )
 })
+
+watch(
+    () => route.query.page,
+    async (page, _) => {
+        if (!page) page = '1'
+        document.title = `第 ${page} 页 | ${siteStore.site.title}`
+
+        loading.value = true
+        const resp = await fetch(`/api/post/list?page=${page}`)
+        posts.value = await resp.json()
+        loading.value = false
+    },
+    { immediate: true }
+)
 </script>
 
 <template>
