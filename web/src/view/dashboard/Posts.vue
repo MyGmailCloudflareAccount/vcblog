@@ -110,11 +110,11 @@ onMounted(getCount)
     </el-table>
     <el-pagination style="display: flex; justify-content: center; background-color: var(--el-fill-color-blank)" hide-on-single-page :page-count="total_page" layout="prev, pager, next" v-model:current-page="cur_page" />
     <el-dialog v-model="showEditor" title="Markdown 编辑器" fullscreen>
-        <div style="display: flex; align-items: center; margin-bottom: 5px">
+        <div style="display: flex; align-items: center; margin-bottom: 5px; column-gap: 5px">
             <el-text>标题</el-text>
-            <el-input v-model="postInfo.title" style="width: 240px; margin: 0 5px" placeholder=" " />
+            <el-input v-model="postInfo.title" style="flex: 1" placeholder=" " />
             <el-text>编辑</el-text>
-            <el-switch v-model="isPreview" style="margin: 0 5px" />
+            <el-switch v-model="isPreview" />
             <el-text>预览</el-text>
         </div>
         <MarkdownRender v-show="isPreview" :content="postInfo.content" />
