@@ -17,7 +17,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <h2 style="margin-top: 5px">{{ post.title || '加载中...' }}</h2>
+    <h2 style="margin: 5px 0 0 0">{{ post.title || '加载中...' }}</h2>
     <MarkdownRender :content="post.content" />
 </template>
 
