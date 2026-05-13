@@ -45,13 +45,34 @@ const editPost = async idx => {
     loading.value = true
     const resp = await fetch(`/api/post/info?id=${post.id}`)
     postInfo.value = await resp.json()
+    postInfo.value.id = post.id
     loading.value = false
 
     showEditor.value = true
 }
 
 const savePost = async () => {
-    console.log(postInfo.value)
+    saveing.value = true
+
+    try {
+        const resp = await fetch('/api/post/update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+            body: JSON.stringify(postInfo.value)
+        })
+
+        if (resp.status !== 200) {
+            return
+        }
+    } finally {
+        saveing.value = false
+    }
+
+    showEditor.value = false
+    isPreview.value = false
+    await refresh()
 }
 
 onMounted(getCount)
@@ -72,7 +93,9 @@ onMounted(getCount)
     </el-table>
     <el-pagination style="display: flex; justify-content: center; background-color: var(--el-fill-color-blank)" hide-on-single-page :page-count="total_page" layout="prev, pager, next" v-model:current-page="cur_page" />
     <el-dialog v-model="showEditor" title="Markdown 编辑器" fullscreen>
-        <div style="display: flex; align-items: center">
+        <div style="display: flex; align-items: center; margin-bottom: 5px">
+            <el-text>标题</el-text>
+            <el-input v-model="postInfo.title" style="width: 240px; margin: 0 5px" placeholder=" " />
             <el-text>编辑</el-text>
             <el-switch v-model="isPreview" style="margin: 0 5px" />
             <el-text>预览</el-text>

@@ -51,7 +51,7 @@ const updateSettings = async () => {
 <template>
     <el-form v-loading="loading" label-width="auto">
         <el-form-item v-for="(_, key) in settings" :label="key">
-            <el-input :type="key.startsWith('extra_') ? 'textarea' : 'text'" v-model="settings[key]" placeholder=" " autosize clearable />
+            <el-input :type="key.startsWith('extra_') ? 'textarea' : 'text'" v-model="settings[key]" placeholder=" " autosize />
         </el-form-item>
         <el-form-item>
             <el-text>{{ changedKeys.length === 0 ? '没有暂存的更改' : `暂存的更改: ${changedKeys.join(', ')}` }}</el-text>

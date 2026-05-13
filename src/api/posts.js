@@ -124,4 +124,17 @@ posts.get('/search', async (req, res) => {
     res.json(result)
 })
 
+import { requireAuth } from './auth.js'
+
+posts.post('/update', requireAuth, async (req, res) => {
+    const { id, title, content } = req.body
+    if (typeof id !== 'number' || typeof title !== 'string' || title === '' || typeof content !== 'string' || content === '') {
+        res.sendStatus(400)
+        return
+    }
+
+    await db.update(table).set({ title, content }).where(eq(table.id, id))
+    res.sendStatus(200)
+})
+
 export default posts
