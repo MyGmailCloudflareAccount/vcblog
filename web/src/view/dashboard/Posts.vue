@@ -1,4 +1,6 @@
 <script setup>
+import MarkdownRender from 'markstream-vue'
+import { MdEditor } from 'md-editor-v3'
 import { Refresh } from '@element-plus/icons-vue'
 import { ref, watch, onMounted } from 'vue'
 
@@ -6,6 +8,11 @@ const loading = ref(false)
 const total_page = ref(1)
 const cur_page = ref(1)
 const posts = ref([])
+
+const showEditor = ref(false)
+const postInfo = ref({})
+const saveing = ref(false)
+const isPreview = ref(false)
 
 const getCount = async () => {
     loading.value = true
@@ -32,9 +39,19 @@ watch(
     { immediate: true }
 )
 
-const editPost = idx => {
+const editPost = async idx => {
     const post = posts.value[idx]
-    console.log(post)
+
+    loading.value = true
+    const resp = await fetch(`/api/post/info?id=${post.id}`)
+    postInfo.value = await resp.json()
+    loading.value = false
+
+    showEditor.value = true
+}
+
+const savePost = async () => {
+    console.log(postInfo.value)
 }
 
 onMounted(getCount)
@@ -44,9 +61,9 @@ onMounted(getCount)
     <div style="margin-bottom: 5px">
         <el-button type="primary" :icon="Refresh" @click="refresh" />
     </div>
-    <el-table v-loading="loading" :data="posts" stripe style="width: 100%">
-        <el-table-column prop="id" label="编号" width="120" fixed />
-        <el-table-column prop="title" label="标题" width="600" />
+    <el-table v-loading="loading" :data="posts" style="width: 100%">
+        <el-table-column prop="id" label="编号" width="60" fixed />
+        <el-table-column prop="title" label="标题" width="940" />
         <el-table-column fixed="right" label="操作" min-width="120">
             <template #default="scope">
                 <el-button link type="primary" size="small" @click.prevent="editPost(scope.$index)">编辑</el-button>
@@ -54,6 +71,19 @@ onMounted(getCount)
         </el-table-column>
     </el-table>
     <el-pagination style="display: flex; justify-content: center; background-color: var(--el-fill-color-blank)" hide-on-single-page :page-count="total_page" layout="prev, pager, next" v-model:current-page="cur_page" />
+    <el-dialog v-model="showEditor" title="Markdown 编辑器" fullscreen>
+        <div style="display: flex; align-items: center">
+            <el-text>编辑</el-text>
+            <el-switch v-model="isPreview" style="margin: 0 5px" />
+            <el-text>预览</el-text>
+        </div>
+        <MarkdownRender v-show="isPreview" :content="postInfo.content" />
+        <MdEditor v-show="!isPreview" v-model="postInfo.content" :preview="false" />
+        <template #footer>
+            <el-button @click="showEditor = false">放弃</el-button>
+            <el-button :loading="saveing" type="primary" @click="savePost">保存</el-button>
+        </template>
+    </el-dialog>
 </template>
 
 <style scoped></style>

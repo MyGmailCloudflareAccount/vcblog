@@ -13,6 +13,7 @@
         "element-plus": "^2.13.7",
         "katex": "^0.16.45",
         "markstream-vue": "^0.0.14-beta.5",
+        "md-editor-v3": "^6.5.0",
         "mermaid": "^11.14.0",
         "pinia": "^3.0.4",
         "stream-markdown": "^0.0.15",

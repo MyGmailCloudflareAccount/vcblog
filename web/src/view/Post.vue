@@ -1,9 +1,7 @@
 <script setup>
+import MarkdownRender from 'markstream-vue'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-
-import 'katex/dist/katex.min.css'
-import MarkdownRender from 'markstream-vue'
 
 import { useSiteStore } from '@/stores/site'
 const siteStore = useSiteStore()
