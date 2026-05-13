@@ -34,10 +34,9 @@ const changeTab = (tab, _) => {
 
 <template>
     <el-tabs v-model="activeTab" @tab-click="changeTab">
-        <el-tab-pane v-for="child in dashRoute.children" :label="child.name" :name="child.name">
-            <router-view v-if="child.name === activeTab" />
-        </el-tab-pane>
+        <el-tab-pane v-for="child in dashRoute.children" :label="child.name" :name="child.name" />
     </el-tabs>
+    <router-view />
 </template>
 
 <style scoped></style>
