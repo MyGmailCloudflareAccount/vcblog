@@ -28,7 +28,7 @@ settings.get('/list', async (req, res) => {
 
 settings.post('/update', async (req, res) => {
     const { key, value } = req.body
-    if (typeof key !== 'string' || key === '' || typeof value !== 'string' || value === '') {
+    if (typeof key !== 'string' || key === '' || typeof value !== 'string') {
         res.sendStatus(400)
         return
     }
