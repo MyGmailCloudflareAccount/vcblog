@@ -1,7 +1,7 @@
 <script setup>
 import MarkdownRender from 'markstream-vue'
 import { MdEditor } from 'md-editor-v3'
-import { Refresh } from '@element-plus/icons-vue'
+import { Refresh, Plus } from '@element-plus/icons-vue'
 import { ref, watch, onMounted } from 'vue'
 
 const loading = ref(false)
@@ -51,11 +51,26 @@ const editPost = async idx => {
     showEditor.value = true
 }
 
+const newPost = () => {
+    postInfo.value = {}
+    showEditor.value = true
+}
+
+const deletePost = async idx => {
+    const post = posts.value[idx]
+
+    loading.value = true
+    await fetch(`/api/post/delete?id=${post.id}`)
+    loading.value = false
+
+    await refresh()
+}
+
 const savePost = async () => {
     saveing.value = true
 
     try {
-        const resp = await fetch('/api/post/update', {
+        const resp = await fetch(`/api/post/${typeof postInfo.value.id === 'number' ? 'update' : 'new'}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8'
@@ -81,6 +96,7 @@ onMounted(getCount)
 <template>
     <div style="margin-bottom: 5px">
         <el-button type="primary" :icon="Refresh" @click="refresh" />
+        <el-button type="primary" :icon="Plus" @click="newPost" />
     </div>
     <el-table v-loading="loading" :data="posts" style="width: 100%">
         <el-table-column prop="id" label="编号" width="60" fixed />
@@ -88,6 +104,7 @@ onMounted(getCount)
         <el-table-column fixed="right" label="操作" min-width="120">
             <template #default="scope">
                 <el-button link type="primary" size="small" @click.prevent="editPost(scope.$index)">编辑</el-button>
+                <el-button link type="primary" size="small" @click.prevent="deletePost(scope.$index)">删除</el-button>
             </template>
         </el-table-column>
     </el-table>

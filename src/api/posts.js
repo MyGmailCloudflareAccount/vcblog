@@ -137,4 +137,32 @@ posts.post('/update', requireAuth, async (req, res) => {
     res.sendStatus(200)
 })
 
+posts.post('/new', requireAuth, async (req, res) => {
+    const { title, content } = req.body
+    if (typeof title !== 'string' || title === '' || typeof content !== 'string' || content === '') {
+        res.sendStatus(400)
+        return
+    }
+
+    await db.insert(table).values({ type: 'post', title, content })
+    res.sendStatus(200)
+})
+
+posts.get('/delete', requireAuth, async (req, res) => {
+    const id = req.query.id
+    if (typeof id !== 'string' || id === '') {
+        res.sendStatus(400)
+        return
+    }
+
+    const idNum = parseInt(id, 10)
+    if (isNaN(idNum)) {
+        res.sendStatus(400)
+        return
+    }
+
+    await db.delete(table).where(eq(table.id, id))
+    res.sendStatus(200)
+})
+
 export default posts
