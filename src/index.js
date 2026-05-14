@@ -1,6 +1,6 @@
 export default {
-    async fetch(request, env, ctx) {
-        const url = new URL(request.url)
+    async fetch(req, env, ctx) {
+        const url = new URL(req.url)
 
         if (url.pathname.startsWith('/api/')) {
             const { set_config } = await import('./env/config.js')
@@ -10,9 +10,15 @@ export default {
             set_database(env.vcblog_database)
 
             const { default: api } = await import('./api.js')
-            return api.fetch(request, env, ctx)
+            return api.fetch(req, env, ctx)
         }
 
-        return env.assets.fetch(request)
+        const asset = await env.assets.fetch(req)
+        if (asset.status === 404 && !url.pathname.includes('.')) {
+            const spa = new Request(new URL('/', req.url), req)
+            return env.assets.fetch(spa)
+        }
+
+        return asset
     }
 }

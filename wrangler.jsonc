@@ -37,7 +37,7 @@
     "assets": {
         "directory": "./web/dist/",
         "binding": "assets",
-        "not_found_handling": "single-page-application"
+        "not_found_handling": "none"
     },
     /**
      * Service Bindings (communicate between multiple Workers)

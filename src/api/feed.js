@@ -10,7 +10,7 @@ import { desc, eq, sql } from 'drizzle-orm'
 
 import { Feed } from 'feed'
 
-const getFeed = async () => {
+feed.get('/rss', async (req, res) => {
     const feed = new Feed({
         title: await config.get('title')
     })
@@ -36,19 +36,8 @@ const getFeed = async () => {
         })
     })
 
-    return feed
-}
-
-feed.get('/rss', async (req, res) => {
-    const feed = await getFeed()
     res.type('application/xml')
     res.send(feed.rss2())
-})
-
-feed.get('/atom', async (req, res) => {
-    const feed = await getFeed()
-    res.type('application/xml')
-    res.send(feed.atom1())
 })
 
 export default feed
