@@ -22,7 +22,7 @@ const getFeed = async () => {
             preview: sql`substr(${table.content}, 1, 200)`.mapWith(String).as('preview'),
             content: table.content
         })
-        .from()
+        .from(table)
         .where(eq(table.type, 'post'))
         .orderBy(desc(table.id))
         .limit(20)
