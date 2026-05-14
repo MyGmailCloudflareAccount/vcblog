@@ -71,7 +71,7 @@ pages.post('/new', requireAuth, async (req, res) => {
     res.sendStatus(200)
 })
 
-pages.post('/delete', requireAuth, async (req, res) => {
+pages.get('/delete', requireAuth, async (req, res) => {
     const id = req.query.id
     if (typeof id !== 'string' || id === '') {
         res.sendStatus(400)
