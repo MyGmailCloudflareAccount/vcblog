@@ -10,7 +10,7 @@ const pages = ref([])
 const showEditor = ref(false)
 const pageInfo = ref({})
 const isPreview = ref(false)
-const saveing = ref(false)
+const saving = ref(false)
 
 const fetchPages = async () => {
     loading.value = true
@@ -33,6 +33,7 @@ const editPage = async idx => {
 
 const newPage = () => {
     pageInfo.value = {}
+    isPreview.value = false
     showEditor.value = true
 }
 
@@ -47,7 +48,7 @@ const deletePage = async idx => {
 }
 
 const savePage = async () => {
-    saveing.value = true
+    saving.value = true
 
     try {
         const resp = await fetch(`/api/page/${typeof pageInfo.value.id === 'number' ? 'update' : 'new'}`, {
@@ -62,7 +63,7 @@ const savePage = async () => {
             return
         }
     } finally {
-        saveing.value = false
+        saving.value = false
     }
 
     showEditor.value = false
@@ -100,7 +101,7 @@ onMounted(fetchPages)
         <MdEditor v-show="!isPreview" v-model="pageInfo.content" :preview="false" />
         <template #footer>
             <el-button @click="showEditor = false">放弃</el-button>
-            <el-button :loading="saveing" type="primary" @click="savePage">保存</el-button>
+            <el-button :loading="saving" type="primary" @click="savePage">保存</el-button>
         </template>
     </el-dialog>
 </template>

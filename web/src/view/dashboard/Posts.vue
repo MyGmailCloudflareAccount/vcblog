@@ -11,7 +11,7 @@ const posts = ref([])
 
 const showEditor = ref(false)
 const postInfo = ref({})
-const saveing = ref(false)
+const saving = ref(false)
 const isPreview = ref(false)
 
 const getCount = async () => {
@@ -53,6 +53,7 @@ const editPost = async idx => {
 
 const newPost = () => {
     postInfo.value = {}
+    isPreview.value = false
     showEditor.value = true
 }
 
@@ -67,7 +68,7 @@ const deletePost = async idx => {
 }
 
 const savePost = async () => {
-    saveing.value = true
+    saving.value = true
 
     try {
         const resp = await fetch(`/api/post/${typeof postInfo.value.id === 'number' ? 'update' : 'new'}`, {
@@ -82,7 +83,7 @@ const savePost = async () => {
             return
         }
     } finally {
-        saveing.value = false
+        saving.value = false
     }
 
     showEditor.value = false
@@ -121,7 +122,7 @@ onMounted(getCount)
         <MdEditor v-show="!isPreview" v-model="postInfo.content" :preview="false" />
         <template #footer>
             <el-button @click="showEditor = false">放弃</el-button>
-            <el-button :loading="saveing" type="primary" @click="savePost">保存</el-button>
+            <el-button :loading="saving" type="primary" @click="savePost">保存</el-button>
         </template>
     </el-dialog>
 </template>

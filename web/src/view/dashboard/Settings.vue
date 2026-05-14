@@ -4,7 +4,7 @@ import { ref, computed, onMounted } from 'vue'
 const loading = ref(false)
 const settings = ref({})
 const oldSettings = ref({})
-const saveing = ref(false)
+const saving = ref(false)
 
 const changedKeys = computed(() => {
     return Object.keys(settings.value).filter(key => settings.value[key] !== oldSettings.value[key])
@@ -21,7 +21,7 @@ onMounted(async () => {
 })
 
 const updateSettings = async () => {
-    saveing.value = true
+    saving.value = true
 
     try {
         for await (const key of changedKeys.value) {
@@ -41,7 +41,7 @@ const updateSettings = async () => {
             }
         }
     } finally {
-        saveing.value = false
+        saving.value = false
     }
 
     oldSettings.value = JSON.parse(JSON.stringify(settings.value))
@@ -57,7 +57,7 @@ const updateSettings = async () => {
             <el-text>{{ changedKeys.length === 0 ? '没有暂存的更改' : `暂存的更改: ${changedKeys.join(', ')}` }}</el-text>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" :loading="saveing" @click="updateSettings">更新</el-button>
+            <el-button type="primary" :loading="saving" @click="updateSettings">更新</el-button>
         </el-form-item>
     </el-form>
 </template>
