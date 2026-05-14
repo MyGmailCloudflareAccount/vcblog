@@ -47,4 +47,45 @@ pages.get('/info', async (req, res) => {
     res.json(result[0])
 })
 
+import { requireAuth } from './auth.js'
+
+pages.post('/update', requireAuth, async (req, res) => {
+    const { id, title, content } = req.body
+    if (typeof id !== 'number' || typeof title !== 'string' || title === '' || typeof content !== 'string' || content === '') {
+        res.sendStatus(400)
+        return
+    }
+
+    await db.update(table).set({ title, content }).where(eq(table.id, id))
+    res.sendStatus(200)
+})
+
+pages.post('/new', requireAuth, async (req, res) => {
+    const { title, content } = req.body
+    if (typeof title !== 'string' || title === '' || typeof content !== 'string' || content === '') {
+        res.sendStatus(400)
+        return
+    }
+
+    await db.insert(table).values({ type: 'page', title, content })
+    res.sendStatus(200)
+})
+
+pages.post('/delete', requireAuth, async (req, res) => {
+    const id = req.query.id
+    if (typeof id !== 'string' || id === '') {
+        res.sendStatus(400)
+        return
+    }
+
+    const idNum = parseInt(id, 10)
+    if (isNaN(idNum)) {
+        res.sendStatus(400)
+        return
+    }
+
+    await db.delete(table).where(eq(table.id, id))
+    res.sendStatus(200)
+})
+
 export default pages
