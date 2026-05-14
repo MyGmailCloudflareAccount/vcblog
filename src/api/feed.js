@@ -31,7 +31,6 @@ const getFeed = async () => {
         feed.addItem({
             title: post.title,
             id: post.id,
-            link: `/post/${post.id}`,
             description: post.preview,
             content: post.content
         })
