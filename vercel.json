@@ -1,8 +1,8 @@
 {
     "rewrites": [
         {
-            "source": "/:match*",
-            "destination": "https://vcblog.partxi.workers.dev/:match*"
+            "source": "/(.*)",
+            "destination": "https://vcblog.partxi.workers.dev/$1"
         }
     ]
 }
