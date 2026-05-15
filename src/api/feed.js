@@ -15,6 +15,12 @@ feed.get('/rss', async (req, res) => {
         title: await config.get('title')
     })
 
+    const post_per_page = parseInt(await config.get('post_per_page'), 10)
+    if (isNaN(post_per_page)) {
+        res.sendStatus(500)
+        return
+    }
+
     const posts = await db
         .select({
             id: table.id,
@@ -25,7 +31,7 @@ feed.get('/rss', async (req, res) => {
         .from(table)
         .where(eq(table.type, 'post'))
         .orderBy(desc(table.id))
-        .limit(20)
+        .limit(post_per_page)
 
     posts.forEach(post => {
         feed.addItem({
