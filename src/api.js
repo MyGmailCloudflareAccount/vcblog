@@ -1,8 +1,16 @@
 import express from 'express'
 const app = express()
-app.enable('trust-proxy')
+app.enable('trust proxy')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.use((req, res, next) => {
+    let realhost = req.headers['x-forwarded-host']
+    if (typeof realhost !== 'string') realhost = req.host
+    else realhost = realhost.split(',')[0].trim()
+    req.headers.host = realhost
+    next()
+})
 
 import cookieParser from 'cookie-parser'
 app.use(cookieParser())

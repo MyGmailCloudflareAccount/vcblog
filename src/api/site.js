@@ -21,9 +21,7 @@ import { SitemapStream, streamToPromise } from 'sitemap'
 import { Readable } from 'stream'
 
 site.get('/map', async (req, res) => {
-    let realhost = req.headers['x-forwarded-host']
-    if (typeof realhost !== 'string') realhost = req.host
-    const hostname = `${req.protocol}://${realhost}`
+    const hostname = `${req.protocol}://${req.host}`
 
     const result = await db
         .select({
@@ -49,9 +47,7 @@ import { desc, eq, sql } from 'drizzle-orm'
 import { Feed } from 'feed'
 
 site.get('/feed', async (req, res) => {
-    let realhost = req.headers['x-forwarded-host']
-    if (typeof realhost !== 'string') realhost = req.host
-    const hostname = `${req.protocol}://${realhost}`
+    const hostname = `${req.protocol}://${req.host}`
 
     const feed = new Feed({
         title: await config.get('title'),
