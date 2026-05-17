@@ -64,8 +64,7 @@ site.get('/feed', async (req, res) => {
         .select({
             id: table.id,
             title: table.title,
-            preview: sql`substr(${table.content}, 1, 200)`.mapWith(String).as('preview'),
-            content: table.content
+            preview: sql`substr(${table.content}, 1, 200)`.mapWith(String).as('preview')
         })
         .from(table)
         .where(eq(table.type, 'post'))
@@ -77,8 +76,7 @@ site.get('/feed', async (req, res) => {
             title: post.title,
             link: `${hostname}/post/${post.id}`,
             id: post.id,
-            description: post.preview,
-            content: post.content
+            description: post.preview
         })
     })
 
