@@ -21,9 +21,6 @@ api.use('/post', posts)
 import auth from './api/auth.js'
 api.use('/auth', auth)
 
-import feed from './api/feed.js'
-api.use('/feed', feed)
-
 import { createServer } from 'node:http'
 import { httpServerHandler } from 'cloudflare:node'
 const server = createServer(app)

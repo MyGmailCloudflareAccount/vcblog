@@ -21,6 +21,8 @@ import { SitemapStream, streamToPromise } from 'sitemap'
 import { Readable } from 'stream'
 
 site.get('/map', async (req, res) => {
+    const hostname = `${req.protocol}://${req.host}`
+
     const result = await db
         .select({
             id: table.id,
@@ -34,11 +36,54 @@ site.get('/map', async (req, res) => {
         priority: 0.8
     }))
 
-    const stream = new SitemapStream()
+    const stream = new SitemapStream({ hostname: hostname })
     const xmlBuffer = await streamToPromise(Readable.from(links).pipe(stream))
 
     res.type('application/xml')
     res.send(xmlBuffer.toString())
+})
+
+import { desc, eq, sql } from 'drizzle-orm'
+import { Feed } from 'feed'
+
+site.get('/feed', async (req, res) => {
+    const hostname = `${req.protocol}://${req.host}`
+
+    const feed = new Feed({
+        title: await config.get('title'),
+        link: hostname
+    })
+
+    const post_per_page = parseInt(await config.get('post_per_page'), 10)
+    if (isNaN(post_per_page)) {
+        res.sendStatus(500)
+        return
+    }
+
+    const posts = await db
+        .select({
+            id: table.id,
+            title: table.title,
+            preview: sql`substr(${table.content}, 1, 200)`.mapWith(String).as('preview'),
+            content: table.content
+        })
+        .from(table)
+        .where(eq(table.type, 'post'))
+        .orderBy(desc(table.id))
+        .limit(post_per_page)
+
+    posts.forEach(post => {
+        feed.addItem({
+            title: post.title,
+            link: `${hostname}/post/${post.id}`,
+            id: post.id,
+            description: post.preview,
+            content: post.content
+        })
+    })
+
+    res.type('application/xml')
+    res.send(feed.rss2())
 })
 
 const settings = express.Router()
