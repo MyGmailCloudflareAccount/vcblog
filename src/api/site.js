@@ -14,6 +14,33 @@ site.get('/info', async (req, res) => {
     })
 })
 
+import db from '../database/orm.js'
+import table from '../database/schema.js'
+
+import { SitemapStream, streamToPromise } from 'sitemap'
+import { Readable } from 'stream'
+
+site.get('/map', async (req, res) => {
+    const result = await db
+        .select({
+            id: table.id,
+            type: table.type
+        })
+        .from(table)
+
+    const links = result.map(item => ({
+        url: `/${item.type}/${item.id}`,
+        changefreq: 'daily',
+        priority: 0.8
+    }))
+
+    const stream = new SitemapStream()
+    const xmlBuffer = await streamToPromise(Readable.from(links).pipe(stream))
+
+    res.type('application/xml')
+    res.send(xmlBuffer.toString())
+})
+
 const settings = express.Router()
 site.use('/settings', settings)
 

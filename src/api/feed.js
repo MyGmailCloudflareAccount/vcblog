@@ -36,6 +36,7 @@ feed.get('/rss', async (req, res) => {
     posts.forEach(post => {
         feed.addItem({
             title: post.title,
+            link: `/post/${post.id}`,
             id: post.id,
             description: post.preview,
             content: post.content
